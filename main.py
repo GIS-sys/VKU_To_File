@@ -1,6 +1,5 @@
 import json
 import requests
-import shlex
 import subprocess
 
 
@@ -99,8 +98,7 @@ class Request:
 
     def send(self):
         print(self.toCurl())
-        #subprocess.run(self.toCurl(), shell=True, check=True)
-        subprocess.run(shlex.split(self.toCurl()), check=True)
+        subprocess.run(self.toCurl(), shell=True, check=True, executable="/bin/bash")
 
 
 class Data:
@@ -123,7 +121,7 @@ class Data:
 
     def parse(self):
         string_parsed = self.req.parsed["--data-raw"][0]
-        # string_parsed = string_parsed.encode('utf-8').decode('unicode_escape') # TODO
+        #string_parsed = string_parsed.encode('utf-8').decode('unicode_escape') # TODO
         string_parsed = string_parsed.replace("\\'", "'") # TODO
         self.data = json.loads(string_parsed)
 
@@ -134,6 +132,6 @@ class Data:
 real_curl = input("Insert CURL from browser, when you change the service and browser tries to save it:\n")
 req = Request(real_curl)
 with Data(req) as data:
-    data.data["data"]["screens"][0]["header"] = "A1"
+    data.data["data"]["screens"][0]["header"] = "A2"
 req.send()
 
