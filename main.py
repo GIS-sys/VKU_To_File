@@ -116,13 +116,12 @@ class Data:
 
     def save(self):
         string_dumped = json.dumps(self.data, separators=[',', ':'])
-        string_dumped = string_dumped.replace("'", "\\'") # TODO
+        string_dumped = string_dumped.replace("\\", "\\\\").replace("'", "\\'")
         self.req.parsed["--data-raw"] = [string_dumped]
 
     def parse(self):
         string_parsed = self.req.parsed["--data-raw"][0]
-        #string_parsed = string_parsed.encode('utf-8').decode('unicode_escape') # TODO
-        string_parsed = string_parsed.replace("\\'", "'") # TODO
+        string_parsed = string_parsed.encode('utf-8').decode('unicode_escape')
         self.data = json.loads(string_parsed)
 
     def __repr__(self):
