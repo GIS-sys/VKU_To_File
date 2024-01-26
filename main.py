@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 import subprocess
 
@@ -127,10 +128,30 @@ class Data:
     def __repr__(self):
         return json.dumps(self.data, indent=1)
 
+    def saveToFile(self, filename):
+        with open(filename, "w") as f:
+            f.write(json.dumps(self.data, indent=4))
 
-real_curl = input("Insert CURL from browser, when you change the service and browser tries to save it:\n")
-req = Request(real_curl)
+    def loadFromFile(self, filename):
+        with open(filename, "r") as f:
+            self.data = json.loads(f.read())
+        os.remove(filename)
+
+
+DATA_FILENAME = "tmp.tmp"
+
+curl_filename = input("Path to file with CURL from browser (PUT request when making change in browser, saved as CURL): ")
+if curl_filename == "":
+    curl_filename = "example.tmp"
+with open(curl_filename, "r") as f:
+    curl_text = f.read()[:-1]
+
+req = Request(curl_text)
 with Data(req) as data:
-    data.data["data"]["screens"][0]["header"] = "A2"
+    # data.data["data"]["screens"][0]["header"] = "A2"
+    data.saveToFile(DATA_FILENAME)
+    print(f"Change service data in file {DATA_FILENAME}, then press any button to push it into ")
+    input()
+    data.loadFromFile(DATA_FILENAME)
 req.send()
 
