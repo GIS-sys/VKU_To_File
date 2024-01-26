@@ -1,5 +1,7 @@
 import json
 import requests
+import shlex
+import subprocess
 
 
 def compareStrings(s1, s2):
@@ -97,6 +99,8 @@ class Request:
 
     def send(self):
         print(self.toCurl())
+        #subprocess.run(self.toCurl(), shell=True, check=True)
+        subprocess.run(shlex.split(self.toCurl()), check=True)
 
 
 class Data:
@@ -130,6 +134,6 @@ class Data:
 real_curl = input("Insert CURL from browser, when you change the service and browser tries to save it:\n")
 req = Request(real_curl)
 with Data(req) as data:
-    data.data["data"]["screens"][0]["header"] = "ZZZZZ"
+    data.data["data"]["screens"][0]["header"] = "A1"
 req.send()
 
