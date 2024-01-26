@@ -1,3 +1,4 @@
+import json
 import requests
 
 
@@ -94,8 +95,41 @@ class Request:
             res += f"{k}: {v}" + "\n"
         return res
 
+    def send(self):
+        print(self.toCurl())
+
+
+class Data:
+    def __init__(self, req):
+        self.req = req
+        self.data = {}
+        self.parse()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, ex_type, ex_value, ex_traceback):
+        if ex_type is None:
+            self.save()
+
+    def save(self):
+        string_dumped = json.dumps(self.data, separators=[',', ':'])
+        string_dumped = string_dumped.replace("'", "\\'") # TODO
+        self.req.parsed["--data-raw"] = [string_dumped]
+
+    def parse(self):
+        string_parsed = self.req.parsed["--data-raw"][0]
+        # string_parsed = string_parsed.encode('utf-8').decode('unicode_escape') # TODO
+        string_parsed = string_parsed.replace("\\'", "'") # TODO
+        self.data = json.loads(string_parsed)
+
+    def __repr__(self):
+        return json.dumps(self.data, indent=1)
+
 
 real_curl = input("Insert CURL from browser, when you change the service and browser tries to save it:\n")
 req = Request(real_curl)
-print(compareStrings(req._origin_curl, req.toCurl()))
+with Data(req) as data:
+    data.data["data"]["screens"][0]["header"] = "ZZZZZ"
+req.send()
 
