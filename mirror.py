@@ -109,7 +109,7 @@ class Request:
             headers[hlabel] = htext
         data = self.parsed["--data-raw"][0]
         response = requests.put(url, headers=headers, json=json.loads(data.encode('utf-8').decode('unicode_escape')))
-        print(response.text)
+        print(response.code)
 
 
 class Data:

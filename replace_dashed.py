@@ -1,3 +1,6 @@
+import json
+
+
 def do_replaces(files, replaces):
     for filename in files:
         with open(filename, "r") as f:
@@ -9,7 +12,10 @@ def do_replaces(files, replaces):
 
 
 # errors
-errors = input("Play errors with dashes")
+errors_file = input("File with play errors with dashes")
+with open(errors_file, "r") as f:
+    errors = f.read()
+print(errors[2980:3050])
 errors = [e["entityId"] for e in json.loads(errors)["versionDataErrors"]]
 replaces = {e: e.replace("-", "_") for e in errors if "-" in e}
 
