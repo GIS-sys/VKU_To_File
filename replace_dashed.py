@@ -12,7 +12,7 @@ def do_replaces(files, replaces):
 
 
 # errors
-errors_file = input("File with play errors with dashes")
+errors_file = input("File with play errors with dashes: ")
 with open(errors_file, "r") as f:
     errors = f.read()
 print(errors[2980:3050])
