@@ -4,6 +4,9 @@ import requests
 import subprocess
 
 
+DATA_FILENAME = "tmp.tmp"
+
+
 def compareStrings(s1, s2):
     for i in range(min(len(s1), len(s2))):
         if s1[i] != s2[i]:
@@ -145,9 +148,12 @@ class Data:
         os.remove(filename)
 
 
-DATA_FILENAME = "tmp.tmp"
-
-curl_filename = input("Path to file with CURL from browser (PUT request when making change in browser, saved as CURL): ")
+print("To use this program you will need to copy data from service on VKU to local file")
+print("1) go to your service (f.e. https://vku.test.gosuslugi.ru/service/60018022/2.2.1003)")
+print("2) open 'network' tab and make some simple change in your service")
+print("3) click right mouse button on PUT method in 'network' and choose 'copy as CURL'")
+print("4) open some local file and copy this curl in this file")
+curl_filename = input("Input path to this file (PUT request when making change in browser, saved as CURL): ")
 if curl_filename == "":
     curl_filename = "example.tmp"
 with open(curl_filename, "r") as f:
@@ -155,10 +161,8 @@ with open(curl_filename, "r") as f:
 
 req = Request(curl_text)
 with Data(req) as data:
-    # data.data["data"]["screens"][0]["header"] = "A2"
     data.saveToFile(DATA_FILENAME)
-    print(f"Change service data in file {DATA_FILENAME}, then press any button to push it into ")
-    input()
+    input(f"Service was cloned into file {DATA_FILENAME}. Change data there, then press any button to push it back into cloud")
     data.loadFromFile(DATA_FILENAME)
 req.send()
 
