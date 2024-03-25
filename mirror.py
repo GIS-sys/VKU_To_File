@@ -162,7 +162,7 @@ with open(curl_filename, "r") as f:
 req = Request(curl_text)
 with Data(req) as data:
     data.saveToFile(DATA_FILENAME)
-    input(f"Service was cloned into file {DATA_FILENAME}. Change data there, then press any button to push it back into cloud")
+    input(f"Service was mirrored into file {DATA_FILENAME}. Change data there, then press any button to push it back into cloud")
     data.loadFromFile(DATA_FILENAME)
 req.send()
 
