@@ -98,8 +98,16 @@ class Request:
         return res
 
     def send(self):
-        print(self.toCurl())
-        subprocess.run(self.toCurl(), shell=True, check=True, executable="/bin/bash")
+        url = self.parsed["url"][0]
+        headers = {}
+        for header in self.parsed["-H"]:
+            hlabel = header[:header.index(":")].strip()
+            htext = header[header.index(":")+1:].strip()
+            headers[hlabel] = htext
+        data = self.parsed["--data-raw"][0]
+        print(data)
+        response = requests.put(url, headers=headers, data=data)
+        print(response.text)
 
 
 class Data:
