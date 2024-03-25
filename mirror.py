@@ -151,7 +151,7 @@ class Data:
 print("To use this program you will need to copy data from service on VKU to local file")
 print("1) go to your service (f.e. https://vku.test.gosuslugi.ru/service/60018022/2.2.1003)")
 print("2) open 'network' tab and make some simple change in your service")
-print("3) click right mouse button on PUT method in 'network' and choose 'copy as CURL'")
+print("3) click right mouse button on PUT method in 'network' tab and choose 'copy as CURL'")
 print("4) open some local file and copy this curl in this file")
 curl_filename = input("Input path to this file (PUT request when making change in browser, saved as CURL): ")
 if curl_filename == "":
