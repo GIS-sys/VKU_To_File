@@ -139,8 +139,8 @@ class Data:
         return json.dumps(self.data, indent=1)
 
     def saveToFile(self, filename):
-        with open(filename, "w") as f:
-            f.write(json.dumps(self.data, indent=4))
+        with open(filename, "w", encoding="utf8") as f:
+            f.write(json.dumps(self.data, indent=4, ensure_ascii=False))
 
     def loadFromFile(self, filename):
         with open(filename, "r") as f:
