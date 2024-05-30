@@ -1,0 +1,4 @@
+To paste text from clipboard use:
+```
+xclip -o > tmp/usluga
+```
