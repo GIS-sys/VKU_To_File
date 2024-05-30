@@ -157,7 +157,7 @@ curl_filename = input("Input path to this file (PUT request when making change i
 if curl_filename == "":
     curl_filename = "example.tmp"
 with open(curl_filename, "r") as f:
-    curl_text = f.read()[:-1]
+    curl_text = f.read().strip()
 
 req = Request(curl_text)
 with Data(req) as data:
